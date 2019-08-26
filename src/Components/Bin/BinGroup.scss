@@ -1,0 +1,77 @@
+.bin-group {
+  position: relative;
+  width: 100px;
+  display: block;
+
+  .bin-circle {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: lightgrey;
+    margin: 20px;
+    bottom: -13px;
+    left: 9px;
+    z-index: 0;
+  }
+
+  .bin-square {
+    width: 60px;
+    height: 60px;
+    background: red;
+    background-color: lightgrey;
+    margin: 20px;
+  }
+
+  .bin-pentagon {
+    position: relative;
+    width: 54px;
+    box-sizing: content-box;
+    border-width: 50px 18px 0;
+    border-style: solid;
+    border-color: lightgrey transparent;
+    bottom: -16px;
+    left: -5px;
+    margin: 20px;
+  }
+  .bin-pentagon:before {
+    content: "";
+    position: absolute;
+    height: 0;
+    width: 0;
+    top: -85px;
+    left: -18px;
+    border-width: 0 45px 35px;
+    border-style: solid;
+    border-color: transparent transparent lightgrey;
+  }
+
+  .bin-triangle {
+    width: 0;
+    height: 0;
+    border-left: 40px solid transparent;
+    border-right: 40px solid transparent;
+    border-bottom: 62px solid lightgrey;
+    margin: 20px;
+  }
+}
+
+.highlighted-pentagon-bin {
+  border-color: green transparent !important;
+}
+
+.highlighted-pentagon-bin:before {
+  border-color: transparent transparent green !important;
+}
+
+.highlighted-triangle-bin {
+  border-bottom: 62px solid green !important;
+}
+
+.highlighted-square-bin {
+  background-color: green !important;
+}
+
+ .highlighted-circle-bin {
+  background-color: green !important;
+}

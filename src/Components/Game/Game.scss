@@ -1,0 +1,90 @@
+.selected-shape {
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 1);
+  opacity: 1;
+}
+
+.shape {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  transition: box-shadow 500ms;
+}
+
+.circle, .pentagon, .triangle, .square {
+  display: block;
+  clear: both;
+  transition: transform 500ms ease-in-out;
+  &:hover {
+    cursor: pointer;
+  }
+  position: relative;
+  z-index: 10;
+}
+
+.bin {
+  display: block;
+  clear: both;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.pentagon {
+  position: relative;
+  top: 37px;
+}
+
+.bounds-line {
+  position:relative;
+  left: -15px;
+  width: 100vw;
+  .line-top {
+    margin-top: 2rem;
+    border-bottom: 2px solid red
+  }
+  .line-bottom {
+    margin-bottom: 2rem;
+    border-top: 2px solid red
+  }
+}
+
+.circle {
+  .play-button {
+    left: 13px;
+    top: 12px;
+  }
+}
+
+.triangle {
+  .play-button {
+    left: -17px;
+    top: 23px;
+  }
+}
+
+.square {
+  .play-button {
+    left: 14px;
+    top: 12px;
+  }
+}
+
+.pentagon {
+  .play-button {
+    position: relative;
+    z-index: 1000;
+    left: 10px;
+    top: -56px;
+  }
+}
+
+
+.play-button {
+  background-color: silver;
+  background-blend-mode:color;
+  display: block;
+  position: absolute;
+  z-index: 100;
+  width: 34px;
+  height: 34px;
+  border-radius: 34px;
+  border: 1px solid grey;
+}

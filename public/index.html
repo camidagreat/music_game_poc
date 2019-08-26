@@ -15,6 +15,14 @@
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/v4-shims.css">
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -39,5 +47,39 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <!-- <script type="text/javascript">
+      window.onload = function() {
+        // find the element that you want to drag.
+        var shapes = document.getElementsByClassName('circle');
+
+        /* listen to the touchMove event,
+        every time it fires, grab the location
+        of touch and assign it to box */
+
+        $(shapes).each(function(shape, e) {
+          console.log(shape, e);
+
+          e.addEventListener('touchmove', function(e) {
+            // grab the location of touch
+            var touchLocation = e.targetTouches[0];
+
+            // assign box new coordinates based on the touch.
+            e.style.left = touchLocation.pageX + 'px';
+            e.style.top = touchLocation.pageY + 'px';
+          })
+
+          /* record the position of the touch
+          when released using touchend event.
+          This will be the drop position. */
+
+          e.addEventListener('touchend', function(e) {
+            // current box position.
+            var x = parseInt(e.style.left);
+            var y = parseInt(e.style.top);
+          })
+
+        })
+      }
+    </script> -->
   </body>
 </html>
