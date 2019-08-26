@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactPlayer from 'react-player'
 
 import './Shape.scss'
 import PlayButton from '../../PlayButton/PlayButton.js'
@@ -18,6 +19,8 @@ export default class Shape extends React.Component {
     return (
       <div id={this.props.id} ref={this.props.id} className={ `${this.props.shape} ${selectedClass}`} onClick={(e) => this.handleSelect(e)}>
         <PlayButton selected={this.props.selected} shapeId={this.props.id} />
+        <audio controls id={`audio-${this.props.id}`} src={this.props.audio} preload='auto' type='audio/aif'></audio>
+        <ReactPlayer url={this.props.audio} playing />
       </div>
     );
   }

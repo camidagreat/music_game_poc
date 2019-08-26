@@ -4,6 +4,22 @@ import './Game.scss'
 import Shape from '../Shapes/Shape/Shape.js'
 import BinGroup from '../Bin/BinGroup.js'
 
+import firebase from 'firebase';
+
+import audioFile from '../../Assets/audio/BEATRIX1/1-CHORDS-PIANO.aif'
+
+var firebaseConfig = {
+  apiKey: "AIzaSyBIXJPpu7mUL2H9xou4p5q56ZN5tQ9jPrM",
+  authDomain: "sonically-38cf4.firebaseapp.com",
+  databaseURL: "https://sonically-38cf4.firebaseio.com",
+  projectId: "sonically-38cf4",
+  storageBucket: "sonically-38cf4.appspot.com",
+  messagingSenderId: "672372175944",
+  appId: "1:672372175944:web:9a2ea663a1377e6e"
+};
+
+firebase.initializeApp(firebaseConfig)
+
 export default class Game extends React.Component {
 
   constructor(props) {
@@ -18,6 +34,20 @@ export default class Game extends React.Component {
                     binGroup3: [],
                     binE: {},
                     shapeE: {},
+                    music:{
+                      circle1: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
+                      circle2: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
+                      circle3: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
+                      square1: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
+                      square2: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
+                      square3: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
+                      pentagon1: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
+                      pentagon2: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
+                      pentagon3: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
+                      triangle1: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
+                      triangle2: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
+                      triangle3: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
+                    },
                     shapeData: {
                       circles: {
                         circle1: {
@@ -82,6 +112,11 @@ export default class Game extends React.Component {
   handleSelect(e, id) {
     e.persist()
     this.setState({selectedDiv: id, shapeE: e})
+
+    let audio = document.getElementById(`audio-${id}`)
+    console.log(audio)
+
+    audio.play()
   }
 
   handleBinSelect(e, id) {
@@ -157,6 +192,7 @@ export default class Game extends React.Component {
                                                                       ref={data.id}
                                                                       shape={data.shape}
                                                                       selected={this.state.selectedDiv}
+                                                                      audio={audioFile}
                                                                       handleSelect={(e, id) => this.handleSelect(e, id)} />
                                                                )})
     let squares = Object.keys(this.state.shapeData.squares).map((key) => {
@@ -167,6 +203,7 @@ export default class Game extends React.Component {
                                                                       ref={data.id}
                                                                       shape={data.shape}
                                                                       selected={this.state.selectedDiv}
+                                                                      audio={audioFile}
                                                                       handleSelect={(e, id) => this.handleSelect(e, id)} />
                                                                 )})
     let pentagons = Object.keys(this.state.shapeData.pentagons).map((key) => {
@@ -177,6 +214,7 @@ export default class Game extends React.Component {
                                                                       ref={data.id}
                                                                       shape={data.shape}
                                                                       selected={this.state.selectedDiv}
+                                                                      audio={audioFile}
                                                                       handleSelect={(e, id) => this.handleSelect(e, id)} />
                                                                )})
     let triangles = Object.keys(this.state.shapeData.triangles).map((key) => {
@@ -187,6 +225,7 @@ export default class Game extends React.Component {
                                                                      ref={data.id}
                                                                      shape={data.shape}
                                                                      selected={this.state.selectedDiv}
+                                                                     audio={audioFile}
                                                                      handleSelect={(e, id) => this.handleSelect(e, id)} />
                                                               )})
 
