@@ -6,8 +6,6 @@ import BinGroup from '../Bin/BinGroup.js'
 
 import firebase from 'firebase';
 
-import audioFile from '../../Assets/audio/BEATRIX1/1-CHORDS-PIANO.aif'
-
 var firebaseConfig = {
   apiKey: "AIzaSyBIXJPpu7mUL2H9xou4p5q56ZN5tQ9jPrM",
   authDomain: "sonically-38cf4.firebaseapp.com",
@@ -35,18 +33,18 @@ export default class Game extends React.Component {
                     binE: {},
                     shapeE: {},
                     music:{
-                      circle1: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
-                      circle2: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
-                      circle3: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
-                      square1: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
-                      square2: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
-                      square3: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
-                      pentagon1: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
-                      pentagon2: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
-                      pentagon3: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
-                      triangle1: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
-                      triangle2: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
-                      triangle3: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.aif?alt=media&token=84361761-a3ee-4786-bb56-6e0b7546d419',
+                      circle1: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/1-CHORDS-PIANO.mp3?alt=media&token=4f92b163-68a6-4200-a1db-4b6e6ec06d1e',
+                      circle2: '',
+                      circle3: '',
+                      square1: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/1-DRUMS-4-ON-FLOOR.mp3?alt=media&token=be9a30c3-e31c-4dbb-b40d-a3caea08c00e',
+                      square2: '',
+                      square3: '',
+                      pentagon1: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/1-MELODY-LEAD-BASS.mp3?alt=media&token=ebd9260d-e5ff-4e7e-9188-5c57ae878945',
+                      pentagon2: '',
+                      pentagon3: '',
+                      triangle1: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/1-SOUND-MACHINE.mp3?alt=media&token=653e1cb1-6757-4a04-a85e-52265540e749',
+                      triangle2: '',
+                      triangle3: '',
                     },
                     shapeData: {
                       circles: {
@@ -113,9 +111,12 @@ export default class Game extends React.Component {
     e.persist()
     this.setState({selectedDiv: id, shapeE: e})
 
-    let audio = document.getElementById(`audio-${id}`)
-    console.log(audio)
+    var sounds = document.getElementsByTagName('audio');
+    console.log(sounds)
 
+    let audioUrl = this.state.music[id]
+    let audio = new Audio(audioUrl)
+    console.log(audio)
     audio.play()
   }
 
@@ -192,7 +193,7 @@ export default class Game extends React.Component {
                                                                       ref={data.id}
                                                                       shape={data.shape}
                                                                       selected={this.state.selectedDiv}
-                                                                      audio={audioFile}
+                                                                      audio={this.state.music[data.id]}
                                                                       handleSelect={(e, id) => this.handleSelect(e, id)} />
                                                                )})
     let squares = Object.keys(this.state.shapeData.squares).map((key) => {
@@ -203,7 +204,7 @@ export default class Game extends React.Component {
                                                                       ref={data.id}
                                                                       shape={data.shape}
                                                                       selected={this.state.selectedDiv}
-                                                                      audio={audioFile}
+                                                                      audio={this.state.music[data.id]}
                                                                       handleSelect={(e, id) => this.handleSelect(e, id)} />
                                                                 )})
     let pentagons = Object.keys(this.state.shapeData.pentagons).map((key) => {
@@ -214,7 +215,7 @@ export default class Game extends React.Component {
                                                                       ref={data.id}
                                                                       shape={data.shape}
                                                                       selected={this.state.selectedDiv}
-                                                                      audio={audioFile}
+                                                                      audio={this.state.music[data.id]}
                                                                       handleSelect={(e, id) => this.handleSelect(e, id)} />
                                                                )})
     let triangles = Object.keys(this.state.shapeData.triangles).map((key) => {
@@ -225,7 +226,7 @@ export default class Game extends React.Component {
                                                                      ref={data.id}
                                                                      shape={data.shape}
                                                                      selected={this.state.selectedDiv}
-                                                                     audio={audioFile}
+                                                                     audio={this.state.music[data.id]}
                                                                      handleSelect={(e, id) => this.handleSelect(e, id)} />
                                                               )})
 
