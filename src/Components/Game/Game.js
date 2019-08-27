@@ -287,7 +287,7 @@ export default class Game extends React.Component {
           <div className="line-bottom"></div>
         </div>
         <div className="d-flex flex-wrap">
-          <div className="col-md-4 col-xs-6 mx-auto">
+          <div className="col-md-4 col-xs-6 mx-auto mb-5">
             <div className="row mx-auto">
               <BinGroup selected={this.state.selectedDiv}
                         group={1}
@@ -298,8 +298,8 @@ export default class Game extends React.Component {
                         handlePlayAll={(bin) => this.handlePlayAll(bin) } />
             </div>
           </div>
-          <div className="col-md-4 col-xs-6 mx-auto">
-            <div className="row justify-content-center">
+          <div className="col-md-4 col-xs-6 mx-auto mb-5">
+            <div className="row mx-auto">
               <BinGroup selected={this.state.selectedDiv}
                         group={2}
                         locator={'binGroup2'}
@@ -309,7 +309,7 @@ export default class Game extends React.Component {
                         handlePlayAll={(bin) => this.handlePlayAll(bin) } />
             </div>
           </div>
-          <div className="col-md-4 col-xs-6 mx-auto" >
+          <div className="col-md-4 col-xs-6 mx-auto mb-5" >
             <div className="row mx-auto">
               <BinGroup selected={this.state.selectedDiv}
                         group={3}
