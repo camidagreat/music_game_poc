@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactPlayer from 'react-player'
 
 import './Shape.scss'
 import PlayButton from '../../PlayButton/PlayButton.js'
@@ -14,11 +13,14 @@ export default class Shape extends React.Component {
     let selectedClass = ''
     if (this.props.id === this.props.selected) {
       selectedClass = 'selected-shape'
+      let audio = document.getElementById(`audio-${this.props.id}`)
+      audio.play();
     }
 
     return (
       <div id={this.props.id} ref={this.props.id} className={ `${this.props.shape} ${selectedClass}`} onClick={(e) => this.handleSelect(e)}>
         <PlayButton selected={this.props.selected} shapeId={this.props.id} />
+        <audio id={`audio-${this.props.id}`} src={this.props.audio}></audio>
       </div>
     );
   }

@@ -3,20 +3,7 @@ import React from 'react';
 import './Game.scss'
 import Shape from '../Shapes/Shape/Shape.js'
 import BinGroup from '../Bin/BinGroup.js'
-
-import firebase from 'firebase';
-
-var firebaseConfig = {
-  apiKey: "AIzaSyBIXJPpu7mUL2H9xou4p5q56ZN5tQ9jPrM",
-  authDomain: "sonically-38cf4.firebaseapp.com",
-  databaseURL: "https://sonically-38cf4.firebaseio.com",
-  projectId: "sonically-38cf4",
-  storageBucket: "sonically-38cf4.appspot.com",
-  messagingSenderId: "672372175944",
-  appId: "1:672372175944:web:9a2ea663a1377e6e"
-};
-
-firebase.initializeApp(firebaseConfig)
+import Header from '../Header/Header.js'
 
 export default class Game extends React.Component {
 
@@ -109,20 +96,41 @@ export default class Game extends React.Component {
 
   handleSelect(e, id) {
     e.persist()
-    this.setState({selectedDiv: id, shapeE: e})
+    let newPlayCount = this.state.plays - 1
 
-    var sounds = document.getElementsByTagName('audio');
-    console.log(sounds)
+    if (this.state.selectedDiv !== id) {
+      this.setState({selectedDiv: id, shapeE: e, plays: newPlayCount})
+    } else {
+      this.setState({selectedDiv: ''})
+      let audio = document.getElementById(`audio-${id}`)
+      audio.pause();
+      audio.currentTime = 0
+    }
+  }
 
-    let audioUrl = this.state.music[id]
-    let audio = new Audio(audioUrl)
-    console.log(audio)
-    audio.play()
+  handlePlayAll(bin) {
+    let fileData = this.state[bin]
+    let audios = []
+
+    fileData.map((file) => {
+      let audio = document.getElementById(`audio-${file}`)
+      audios.push(audio)
+    })
+
+    audios.map((audio) => {
+      audio.currentTime = 0
+      audio.play()
+    })
   }
 
   handleBinSelect(e, id) {
     e.persist()
     let bin = parseInt(id.match(/\d+/)[0])
+
+    let audio = document.getElementById(`audio-${this.state.selectedDiv}`)
+    audio.pause();
+    audio.currentTime = 0
+
     if (this.state.selectedDiv !== '') {
       if (bin === 1) {
         let shape = this.state.selectedDiv
@@ -234,6 +242,7 @@ export default class Game extends React.Component {
 
     return (
       <div className="beatrix">
+        <Header plays={this.state.plays} />
         <div className="row">
           <div className="col-3">
             {circles}
@@ -257,27 +266,30 @@ export default class Game extends React.Component {
             <div className="row justify-content-center">
               <BinGroup selected={this.state.selectedDiv}
                         group={1}
-                        key={'binGroup1'}
-                        ref={'binGroup1'}
-                        handleBinSelect={(e, id) => this.handleBinSelect(e, id) } />
+                        locator={'binGroup1'}
+                        groupContent={this.state.binGroup1}
+                        handleBinSelect={(e, id) => this.handleBinSelect(e, id) }
+                        handlePlayAll={(bin) => this.handlePlayAll(bin) } />
             </div>
           </div>
           <div className="col-6 mx-auto" style={{left:-70}}>
             <div className="row justify-content-center">
               <BinGroup selected={this.state.selectedDiv}
                         group={2}
-                        key={'binGroup2'}
-                        ref={'binGroup2'}
-                        handleBinSelect={(e, id) => this.handleBinSelect(e, id) } />
+                        locator={'binGroup2'}
+                        groupContent={this.state.binGroup2}
+                        handleBinSelect={(e, id) => this.handleBinSelect(e, id) }
+                        handlePlayAll={(bin) => this.handlePlayAll(bin) } />
             </div>
           </div>
           <div className="col-6 mx-auto" >
             <div className="row justify-content-center">
               <BinGroup selected={this.state.selectedDiv}
                         group={3}
-                        key={'binGroup3'}
-                        ref={'binGroup3'}
-                        handleBinSelect={(e, id) => this.handleBinSelect(e, id) } />
+                        locator={'binGroup3'}
+                        groupContent={this.state.binGroup3}
+                        handleBinSelect={(e, id) => this.handleBinSelect(e, id) }
+                        handlePlayAll={(bin) => this.handlePlayAll(bin) } />
             </div>
           </div>
         </div>

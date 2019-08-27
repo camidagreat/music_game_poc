@@ -4,13 +4,18 @@ import BinCircle from './BinShapes/BinCircle.js'
 import BinSquare from './BinShapes/BinSquare.js'
 import BinPentagon from './BinShapes/BinPentagon.js'
 import BinTriangle from './BinShapes/BinTriangle.js'
+import PlayAllButton from '../PlayButton/PlayAllButton.js'
 
 import './BinGroup.scss'
 
-export default class Game extends React.Component {
+export default class BinGroup extends React.Component {
 
   handleSelect(e, id) {
     this.props.handleBinSelect(e, id)
+  }
+
+  handlePlayAll() {
+    this.props.handlePlayAll(this.props.locator)
   }
 
   render() {
@@ -45,6 +50,7 @@ export default class Game extends React.Component {
                          key={`squareBin${this.props.group}`}/>
 
           </div>
+          <div className='all-play-button'><PlayAllButton handlePlayAll={() => this.handlePlayAll()} /></div>
       </div>
     );
   }

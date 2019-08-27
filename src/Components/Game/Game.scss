@@ -1,3 +1,15 @@
+.header {
+  height: 8rem;
+  .logo {
+    width: 5rem;
+    margin: auto auto auto 0;
+  }
+  .title {
+    font-size: 40px;
+    color: lightblue;
+  }
+}
+
 .selected-shape {
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 1);
   opacity: 1;
@@ -91,4 +103,10 @@
   .fa-pause {
     padding-left: 2px;
   }
+}
+
+.all-play-button {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
 }
