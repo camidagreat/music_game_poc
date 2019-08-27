@@ -17,21 +17,22 @@ export default class Game extends React.Component {
                     binGroup1: [],
                     binGroup2: [],
                     binGroup3: [],
-                    binE: {},
-                    shapeE: {},
+                    binGroup1Playing: false,
+                    binGroup2Playing: false,
+                    binGroup3Playing: false,
                     music:{
                       circle1: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/1-CHORDS-PIANO.mp3?alt=media&token=4f92b163-68a6-4200-a1db-4b6e6ec06d1e',
-                      circle2: '',
-                      circle3: '',
+                      circle2: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-CHORDS-TRIBE-CALLED-IT.mp3?alt=media&token=e886434c-4676-4760-bc7e-c8a874de95fd',
+                      circle3: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/3-CHORDS-MALLET.mp3?alt=media&token=79dfb57b-8670-432f-aee4-37a643326415',
                       square1: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/1-DRUMS-4-ON-FLOOR.mp3?alt=media&token=be9a30c3-e31c-4dbb-b40d-a3caea08c00e',
-                      square2: '',
-                      square3: '',
+                      square2: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-DRUMS-HIP-HOP.mp3?alt=media&token=6dc87c95-2b66-4666-b95e-6856be3c143f',
+                      square3: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/3-DRUMS-SPIRAL.mp3?alt=media&token=62c5bf81-62d9-404b-8dc8-5189a3151a2b',
                       pentagon1: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/1-MELODY-LEAD-BASS.mp3?alt=media&token=ebd9260d-e5ff-4e7e-9188-5c57ae878945',
-                      pentagon2: '',
-                      pentagon3: '',
+                      pentagon2: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-MELODY-BASS-LEAD.mp3?alt=media&token=7f9ac552-b7f6-4c86-8241-018a6b6650c7',
+                      pentagon3: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/3-MELODY-GUITAR.mp3?alt=media&token=5ba2d1f7-115c-46dd-8316-7f9942bc1a0a',
                       triangle1: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/1-SOUND-MACHINE.mp3?alt=media&token=653e1cb1-6757-4a04-a85e-52265540e749',
-                      triangle2: '',
-                      triangle3: '',
+                      triangle2: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/2-SOUND-BOTTLE-SCRAPE.mp3?alt=media&token=c0207604-a270-488d-a92e-f0f4acac01cb',
+                      triangle3: 'https://firebasestorage.googleapis.com/v0/b/sonically-38cf4.appspot.com/o/3-SOUND-CRICKETS.mp3?alt=media&token=614b47e3-82b1-40ea-a12a-212998763c15',
                     },
                     shapeData: {
                       circles: {
@@ -98,8 +99,14 @@ export default class Game extends React.Component {
     e.persist()
     let newPlayCount = this.state.plays - 1
 
+    if (this.state.selectedDiv !== '') {
+      let audio = document.getElementById(`audio-${this.state.selectedDiv}`)
+      audio.pause()
+      audio.currentTime = 0
+    }
+
     if (this.state.selectedDiv !== id) {
-      this.setState({selectedDiv: id, shapeE: e, plays: newPlayCount})
+      this.setState({selectedDiv: id, plays: newPlayCount})
     } else {
       this.setState({selectedDiv: ''})
       let audio = document.getElementById(`audio-${id}`)
@@ -117,10 +124,28 @@ export default class Game extends React.Component {
       audios.push(audio)
     })
 
-    audios.map((audio) => {
-      audio.currentTime = 0
-      audio.play()
-    })
+    if (this.state[`${bin}Playing`] === false) {
+      audios.map((audio) => {
+        audio.play()
+      })
+
+      let plays = this.state.plays - 1
+      this.setState({plays: plays})
+    } else {
+      audios.map((audio) => {
+        audio.currentTime = 0
+        audio.pause()
+      })
+    }
+
+    if (bin === 'binGroup1') {
+        this.setState( prevState => ({binGroup1Playing: !prevState.binGroup1Playing}));
+    } else if (bin === 'binGroup2') {
+        this.setState( prevState => ({binGroup2Playing: !prevState.binGroup2Playing}));
+    } else if (bin === 'binGroup3') {
+        this.setState( prevState => ({binGroup3Playing: !prevState.binGroup3Playing}));
+    }
+
   }
 
   handleBinSelect(e, id) {
@@ -142,7 +167,6 @@ export default class Game extends React.Component {
         }
 
         this.setState({ binGroup1: binContent,
-                        binE: e,
                         selectedDiv:'',
                         lastBin: binTarget,
                         lastShape: shape},
@@ -157,7 +181,6 @@ export default class Game extends React.Component {
         }
 
         this.setState({ binGroup2: binContent,
-                        binE: e,
                         selectedDiv:'',
                         lastBin: binTarget,
                         lastShape: shape},
@@ -172,7 +195,6 @@ export default class Game extends React.Component {
         }
 
         this.setState({ binGroup3: binContent,
-                        binE: e,
                         selectedDiv:'',
                         lastBin: binTarget,
                         lastShape: shape},
@@ -262,31 +284,34 @@ export default class Game extends React.Component {
           <div className="line-bottom"></div>
         </div>
         <div className="d-flex flex-wrap">
-          <div className="col-6 mx-auto" style={{left:-70}}>
+          <div className="col-4 mx-auto">
             <div className="row justify-content-center">
               <BinGroup selected={this.state.selectedDiv}
                         group={1}
                         locator={'binGroup1'}
+                        playing={this.state.binGroup1Playing}
                         groupContent={this.state.binGroup1}
                         handleBinSelect={(e, id) => this.handleBinSelect(e, id) }
                         handlePlayAll={(bin) => this.handlePlayAll(bin) } />
             </div>
           </div>
-          <div className="col-6 mx-auto" style={{left:-70}}>
+          <div className="col-4 mx-auto">
             <div className="row justify-content-center">
               <BinGroup selected={this.state.selectedDiv}
                         group={2}
                         locator={'binGroup2'}
+                        playing={this.state.binGroup2Playing}
                         groupContent={this.state.binGroup2}
                         handleBinSelect={(e, id) => this.handleBinSelect(e, id) }
                         handlePlayAll={(bin) => this.handlePlayAll(bin) } />
             </div>
           </div>
-          <div className="col-6 mx-auto" >
+          <div className="col-4 mx-auto" >
             <div className="row justify-content-center">
               <BinGroup selected={this.state.selectedDiv}
                         group={3}
                         locator={'binGroup3'}
+                        playing={this.state.binGroup3Playing}
                         groupContent={this.state.binGroup3}
                         handleBinSelect={(e, id) => this.handleBinSelect(e, id) }
                         handlePlayAll={(bin) => this.handlePlayAll(bin) } />

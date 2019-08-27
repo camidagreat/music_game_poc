@@ -50,7 +50,7 @@ export default class BinGroup extends React.Component {
                          key={`squareBin${this.props.group}`}/>
 
           </div>
-          <div className='all-play-button'><PlayAllButton handlePlayAll={() => this.handlePlayAll()} /></div>
+          <div className='all-play-button'><PlayAllButton playing={this.props.playing} handlePlayAll={() => this.handlePlayAll()} /></div>
       </div>
     );
   }
