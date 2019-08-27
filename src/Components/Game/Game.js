@@ -164,13 +164,14 @@ export default class Game extends React.Component {
 
         if (id.includes(this.state.selectedDiv.replace(/[0-9]/g, ''))) {
           binContent.push(this.state.selectedDiv)
+          this.setState({ binGroup1: binContent,
+                          selectedDiv:'',
+                          lastBin: binTarget,
+                          lastShape: shape},
+                          () => this.onClickHandle())
+        } else {
+          this.handlePlayAll(`binGroup${bin}`)
         }
-
-        this.setState({ binGroup1: binContent,
-                        selectedDiv:'',
-                        lastBin: binTarget,
-                        lastShape: shape},
-                        () => this.onClickHandle())
       } else if (bin === 2 ) {
         let shape = this.state.selectedDiv
         let binTarget = id
@@ -178,13 +179,14 @@ export default class Game extends React.Component {
 
         if (id.includes(this.state.selectedDiv.replace(/[0-9]/g, ''))) {
           binContent.push(this.state.selectedDiv)
-        }
-
-        this.setState({ binGroup2: binContent,
-                        selectedDiv:'',
-                        lastBin: binTarget,
-                        lastShape: shape},
-                        () => this.onClickHandle())
+          this.setState({ binGroup2: binContent,
+                          selectedDiv:'',
+                          lastBin: binTarget,
+                          lastShape: shape},
+                          () => this.onClickHandle())
+          } else {
+            this.handlePlayAll(`binGroup${bin}`)
+          }
       } else if (bin === 3 ) {
         let shape = this.state.selectedDiv
         let binTarget = id
@@ -192,13 +194,14 @@ export default class Game extends React.Component {
 
         if (id.includes(this.state.selectedDiv.replace(/[0-9]/g, ''))) {
           binContent.push(this.state.selectedDiv)
-        }
-
-        this.setState({ binGroup3: binContent,
-                        selectedDiv:'',
-                        lastBin: binTarget,
-                        lastShape: shape},
-                        () => this.onClickHandle())
+          this.setState({ binGroup3: binContent,
+                          selectedDiv:'',
+                          lastBin: binTarget,
+                          lastShape: shape},
+                          () => this.onClickHandle())
+          } else {
+            this.handlePlayAll(`binGroup${bin}`)
+          }
       }
     }
   }
@@ -284,8 +287,8 @@ export default class Game extends React.Component {
           <div className="line-bottom"></div>
         </div>
         <div className="d-flex flex-wrap">
-          <div className="col-4 mx-auto">
-            <div className="row justify-content-center">
+          <div className="col-md-4 col-xs-6 mx-auto">
+            <div className="row mx-auto">
               <BinGroup selected={this.state.selectedDiv}
                         group={1}
                         locator={'binGroup1'}
@@ -295,7 +298,7 @@ export default class Game extends React.Component {
                         handlePlayAll={(bin) => this.handlePlayAll(bin) } />
             </div>
           </div>
-          <div className="col-4 mx-auto">
+          <div className="col-md-4 col-xs-6 mx-auto">
             <div className="row justify-content-center">
               <BinGroup selected={this.state.selectedDiv}
                         group={2}
@@ -306,8 +309,8 @@ export default class Game extends React.Component {
                         handlePlayAll={(bin) => this.handlePlayAll(bin) } />
             </div>
           </div>
-          <div className="col-4 mx-auto" >
-            <div className="row justify-content-center">
+          <div className="col-md-4 col-xs-6 mx-auto" >
+            <div className="row mx-auto">
               <BinGroup selected={this.state.selectedDiv}
                         group={3}
                         locator={'binGroup3'}
