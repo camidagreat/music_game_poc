@@ -8,15 +8,14 @@ export default class BinSquare extends React.Component {
 
   render() {
 
-    let highlightedClass = ''
+    let img = <img className='square' src={this.props.shapeImage}></img>
     if (this.props.selected.includes('square')) {
-      highlightedClass = 'highlighted-square-bin'
+      img = <img className='square' src={this.props.shapeImageHighlighted}></img>
     }
 
     return (
-      <div className={`bin-square ${highlightedClass}`}
-           id={this.props.id}
-           onClick={(e) => this.handleSelect(e)}>
+      <div className='square-bin' id={this.props.id} onClick={(e) => this.handleSelect(e)}>
+        {img}
       </div>
     );
   }

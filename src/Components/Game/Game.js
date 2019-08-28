@@ -5,6 +5,11 @@ import Shape from '../Shapes/Shape/Shape.js'
 import BinGroup from '../Bin/BinGroup.js'
 import Header from '../Header/Header.js'
 
+import CircleImage from '../../Assets/Circle.png'
+import SquareImage from '../../Assets/Square.png'
+import PentagonImage from '../../Assets/Pentagon.png'
+import TriangleImage from '../../Assets/Triangle.png'
+
 export default class Game extends React.Component {
 
   constructor(props) {
@@ -38,29 +43,35 @@ export default class Game extends React.Component {
                       circles: {
                         circle1: {
                           id: "circle1",
-                          shape: 'circle'
+                          shape: 'circle',
+                          originalLocation:[]
                         },
                         circle2: {
                           id: "circle2",
-                          shape: 'circle'
+                          shape: 'circle',
+                          originalLocation:[]
                         },
                         circle3: {
                           id: "circle3",
-                          shape: 'circle'
+                          shape: 'circle',
+                          originalLocation:[]
                         }
                       },
                       squares: {
                         square1: {
                           id: "square1",
-                          shape: 'square'
+                          shape: 'square',
+                          originalLocation:[]
                         },
                         square2: {
                           id: "square2",
-                          shape: 'square'
+                          shape: 'square',
+                          originalLocation:[]
                         },
                         square3: {
                           id: "square3",
-                          shape: 'square'
+                          shape: 'square',
+                          originalLocation:[]
                         }
                       },
                       pentagons: {
@@ -70,29 +81,37 @@ export default class Game extends React.Component {
                         },
                         pentagon2: {
                           id: "pentagon2",
-                          shape: 'pentagon'
+                          shape: 'pentagon',
+                          originalLocation:[]
                         },
                         pentagon3: {
                           id: "pentagon3",
-                          shape: 'pentagon'
+                          shape: 'pentagon',
+                          originalLocation:[]
                         }
                       },
                       triangles: {
                         triangle1: {
                           id: "triangle1",
-                          shape: 'triangle'
+                          shape: 'triangle',
+                          originalLocation:[]
                         },
                         triangle2: {
                           id: "triangle2",
-                          shape: 'triangle'
+                          shape: 'triangle',
+                          originalLocation:[]
                         },
                         triangle3: {
                           id: "triangle3",
-                          shape: 'triangle'
+                          shape: 'triangle',
+                          originalLocation:[]
                         }
                       }
                     }
                   };
+  }
+
+  componentDidMount() {
   }
 
   handleSelect(e, id) {
@@ -168,7 +187,7 @@ export default class Game extends React.Component {
                           selectedDiv:'',
                           lastBin: binTarget,
                           lastShape: shape},
-                          () => this.onClickHandle())
+                          () => this.onClickHandle(this.state.lastBin, this.state.lastShape))
         } else {
           this.handlePlayAll(`binGroup${bin}`)
         }
@@ -183,7 +202,7 @@ export default class Game extends React.Component {
                           selectedDiv:'',
                           lastBin: binTarget,
                           lastShape: shape},
-                          () => this.onClickHandle())
+                          () => this.onClickHandle(this.state.lastBin, this.state.lastShape))
           } else {
             this.handlePlayAll(`binGroup${bin}`)
           }
@@ -198,7 +217,7 @@ export default class Game extends React.Component {
                           selectedDiv:'',
                           lastBin: binTarget,
                           lastShape: shape},
-                          () => this.onClickHandle())
+                          () => this.onClickHandle(this.state.lastBin, this.state.lastShape))
           } else {
             this.handlePlayAll(`binGroup${bin}`)
           }
@@ -206,14 +225,49 @@ export default class Game extends React.Component {
     }
   }
 
-  onClickHandle() {
-    let binX = document.getElementById(this.state.lastBin).getBoundingClientRect()['x'];
-    let binY = document.getElementById(this.state.lastBin).getBoundingClientRect()['y'];
-    let shapeX = document.getElementById(this.state.lastShape).getBoundingClientRect()['x'];
-    let shapeY = document.getElementById(this.state.lastShape).getBoundingClientRect()['y'];
-    let shape = document.getElementById(this.state.lastShape);
+  handleSubmitSet(bin) {
+    console.log(this.state[bin])
+    if (this.state[bin].length > 3) {
+      document.getElementById(`${bin}Success`).classList.add("show");
+    }
+  }
 
-    shape.style.transform = "translate3d(" + (binX - shapeX) + "px, " + (binY - shapeY) + "px, 0)"
+  onClickHandle(bin, shape) {
+    let binX = document.getElementById(bin).getBoundingClientRect()['x'];
+    let binY = document.getElementById(bin).getBoundingClientRect()['y'];
+    let shapeX = document.getElementById(shape).getBoundingClientRect()['x'];
+    let shapeY = document.getElementById(shape).getBoundingClientRect()['y'];
+    let shapeDiv = document.getElementById(shape);
+
+    shapeDiv.style.transform = "translate3d(" + (binX - shapeX) + "px, " + (binY - shapeY) + "px, 0)"
+  }
+
+  componentDidMount() {
+    // let allShapes = []
+    // let placedShapes = []
+    // let location = []
+    // let randomizedLocations
+    //
+    // if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    //   randomizedLocations = [[2, 15], [15,5], [3, 15], [1, 2], [5, 1], [14,21], [-30, -10], [13,5], [6, 10], [21,10], [5, 10], [50,10]]
+    // } else {
+    //   randomizedLocations = [[2, 15], [15,5], [3, 15], [1, 2], [5, 1], [14,21], [-30, -10], [13,5], [6, 10], [21,10], [5, 10], [50,10]]
+    // }
+    // Object.keys(this.state.shapeData).map((key) => {
+    //   let groupData = this.state.shapeData[key]
+    //   Object.keys(groupData).map((shapeKey) => {
+    //     let shape = groupData[shapeKey]
+    //     allShapes.push(shape.id)
+    //   })
+    // })
+    //
+    // allShapes.map((shape) => {
+    //   let shapeX = document.getElementById(shape).getBoundingClientRect()['x'];
+    //   let shapeY = document.getElementById(shape).getBoundingClientRect()['y'];
+    //   let shapeDiv = document.getElementById(shape)
+    //   let  movement = randomizedLocations.shift()
+    //   shapeDiv.style.transform = "translate3d(" + (movement[0]) + "px, " + (movement[1]) + "px, 0)"
+    // })
   }
 
   render() {
@@ -227,6 +281,7 @@ export default class Game extends React.Component {
                                                                       shape={data.shape}
                                                                       selected={this.state.selectedDiv}
                                                                       audio={this.state.music[data.id]}
+                                                                      shapeImage={CircleImage}
                                                                       handleSelect={(e, id) => this.handleSelect(e, id)} />
                                                                )})
     let squares = Object.keys(this.state.shapeData.squares).map((key) => {
@@ -238,6 +293,7 @@ export default class Game extends React.Component {
                                                                       shape={data.shape}
                                                                       selected={this.state.selectedDiv}
                                                                       audio={this.state.music[data.id]}
+                                                                      shapeImage={SquareImage}
                                                                       handleSelect={(e, id) => this.handleSelect(e, id)} />
                                                                 )})
     let pentagons = Object.keys(this.state.shapeData.pentagons).map((key) => {
@@ -249,6 +305,7 @@ export default class Game extends React.Component {
                                                                       shape={data.shape}
                                                                       selected={this.state.selectedDiv}
                                                                       audio={this.state.music[data.id]}
+                                                                      shapeImage={PentagonImage}
                                                                       handleSelect={(e, id) => this.handleSelect(e, id)} />
                                                                )})
     let triangles = Object.keys(this.state.shapeData.triangles).map((key) => {
@@ -260,15 +317,15 @@ export default class Game extends React.Component {
                                                                      shape={data.shape}
                                                                      selected={this.state.selectedDiv}
                                                                      audio={this.state.music[data.id]}
+                                                                     shapeImage={TriangleImage}
                                                                      handleSelect={(e, id) => this.handleSelect(e, id)} />
                                                               )})
-
 
 
     return (
       <div className="beatrix">
         <Header plays={this.state.plays} />
-        <div className="row">
+        <div className="row moving-shapes">
           <div className="col-3">
             {circles}
           </div>
@@ -286,39 +343,36 @@ export default class Game extends React.Component {
           <div className="line-top"></div>
           <div className="line-bottom"></div>
         </div>
-        <div className="d-flex flex-wrap">
-          <div className="col-md-4 col-xs-6 mx-auto mb-5">
-            <div className="row mx-auto">
+        <div className="row">
+          <div className="col-md-2 col-3 mr-auto">
               <BinGroup selected={this.state.selectedDiv}
                         group={1}
                         locator={'binGroup1'}
                         playing={this.state.binGroup1Playing}
                         groupContent={this.state.binGroup1}
                         handleBinSelect={(e, id) => this.handleBinSelect(e, id) }
-                        handlePlayAll={(bin) => this.handlePlayAll(bin) } />
-            </div>
+                        handlePlayAll={(bin) => this.handlePlayAll(bin) }
+                        handleSubmitSet={(bin) => this.handleSubmitSet(bin)} />
           </div>
-          <div className="col-md-4 col-xs-6 mx-auto mb-5">
-            <div className="row mx-auto">
+          <div className="col-md-2 col-3 mx-auto">
               <BinGroup selected={this.state.selectedDiv}
                         group={2}
                         locator={'binGroup2'}
                         playing={this.state.binGroup2Playing}
                         groupContent={this.state.binGroup2}
                         handleBinSelect={(e, id) => this.handleBinSelect(e, id) }
-                        handlePlayAll={(bin) => this.handlePlayAll(bin) } />
-            </div>
+                        handlePlayAll={(bin) => this.handlePlayAll(bin) }
+                        handleSubmitSet={(bin) => this.handleSubmitSet(bin)} />
           </div>
-          <div className="col-md-4 col-xs-6 mx-auto mb-5" >
-            <div className="row mx-auto">
+          <div className="col-md-2 col-3 mx-auto" >
               <BinGroup selected={this.state.selectedDiv}
                         group={3}
                         locator={'binGroup3'}
                         playing={this.state.binGroup3Playing}
                         groupContent={this.state.binGroup3}
                         handleBinSelect={(e, id) => this.handleBinSelect(e, id) }
-                        handlePlayAll={(bin) => this.handlePlayAll(bin) } />
-            </div>
+                        handlePlayAll={(bin) => this.handlePlayAll(bin) }
+                        handleSubmitSet={(bin) => this.handleSubmitSet(bin)} />
           </div>
         </div>
       </div>

@@ -8,15 +8,14 @@ export default class BinTriangle extends React.Component {
 
   render() {
 
-    let highlightedClass = ''
+    let img = <img className='triangle' src={this.props.shapeImage}></img>
     if (this.props.selected.includes('triangle')) {
-      highlightedClass = 'highlighted-triangle-bin'
+      img = <img className='triangle' src={this.props.shapeImageHighlighted}></img>
     }
 
     return (
-      <div className={`bin-triangle ${highlightedClass}`}
-           id={this.props.id}
-           onClick={(e) => this.handleSelect(e)}>
+      <div className='triangle-bin' id={this.props.id} onClick={(e) => this.handleSelect(e)}>
+        {img}
       </div>
     );
   }

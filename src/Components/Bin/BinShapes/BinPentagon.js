@@ -8,15 +8,14 @@ export default class BinPentagon extends React.Component {
 
   render() {
 
-    let highlightedClass = ''
+    let img = <img className='pentagon' src={this.props.shapeImage}></img>
     if (this.props.selected.includes('pentagon')) {
-      highlightedClass = 'highlighted-pentagon-bin highlighted-pentagon-top-bin:before'
+      img = <img className='pentagon' src={this.props.shapeImageHighlighted}></img>
     }
 
     return (
-      <div className={`bin-pentagon ${highlightedClass}`}
-           id={this.props.id}
-           onClick={(e) => this.handleSelect(e)}>
+      <div className='pentagon-bin' id={this.props.id} onClick={(e) => this.handleSelect(e)}>
+        {img}
       </div>
     );
   }

@@ -8,15 +8,14 @@ export default class BinCircle extends React.Component {
 
   render() {
 
-    let highlightedClass = ''
+    let img = <img className='circle' src={this.props.shapeImage}></img>
     if (this.props.selected.includes('circle')) {
-      highlightedClass = 'highlighted-circle-bin'
+      img = <img className='circle' src={this.props.shapeImageHighlighted}></img>
     }
 
     return (
-      <div className={`bin-circle ${highlightedClass}`}
-           id={this.props.id}
-           onClick={(e) => this.handleSelect(e)}>
+      <div className='circle-bin' id={this.props.id} onClick={(e) => this.handleSelect(e)}>
+        {img}
       </div>
     );
   }
