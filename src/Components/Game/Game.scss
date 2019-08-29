@@ -239,12 +239,13 @@
   }
   visibility: hidden;
   z-index: 100;
+  transition: opacity .7s;
 }
 
 .show {
   visibility: visible !important;
   opacity: 0.85 !important;
-  transition: visibility 0s linear 0s, opacity 300ms;
+  transition: visibility 0s linear 0s, opacity 400ms;
 }
 
 .game-success, .game-over {

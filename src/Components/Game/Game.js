@@ -1,4 +1,5 @@
 import React from 'react';
+import jquery from 'jquery'
 
 import './Game.scss'
 import Shape from '../Shapes/Shape/Shape.js'

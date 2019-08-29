@@ -18,6 +18,7 @@ export default class Header extends React.Component {
             {this.props.plays}
           </div>
           <div className='col-2'>
+            <button className='btn btn-light btn-circle m-1 ml-md-5'><i class="fas fa-info"></i></button>
           </div>
         </div>
       </div>
