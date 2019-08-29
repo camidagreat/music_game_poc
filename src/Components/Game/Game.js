@@ -16,6 +16,7 @@ export default class Game extends React.Component {
     super(props);
 
     this.state =  { plays: 30,
+                    successCount: 0,
                     selectedDiv: '',
                     lastShape: '',
                     lastBin: '',
@@ -125,7 +126,11 @@ export default class Game extends React.Component {
     }
 
     if (this.state.selectedDiv !== id) {
-      this.setState({selectedDiv: id, plays: newPlayCount})
+      this.setState({selectedDiv: id, plays: newPlayCount}, () => {
+        if (this.state.plays == 0) {
+          document.getElementById('game-over').classList.add("show");
+        }
+      })
     } else {
       this.setState({selectedDiv: ''})
       let audio = document.getElementById(`audio-${id}`)
@@ -226,10 +231,15 @@ export default class Game extends React.Component {
   }
 
   handleSubmitSet(bin) {
-    console.log(this.state[bin])
     if (this.state[bin].length > 3) {
       document.getElementById(`${bin}Success`).classList.add("show");
+      this.setState( prevState => ({successCount: prevState.successCount + 1}), () => {
+        if (this.state.successCount == 3) {
+          document.getElementById('game-success').classList.add("show");
+        }
+      })
     }
+
   }
 
   onClickHandle(bin, shape) {
@@ -326,6 +336,8 @@ export default class Game extends React.Component {
       <div className="beatrix">
         <Header plays={this.state.plays} />
         <div className="row moving-shapes">
+          <div id='game-success' className='game-success p-auto'><h1 className='text-success text-center'>Great job!</h1></div>
+          <div id='game-over' className='game-over p-auto'><h1 className='text-danger text-center'>You used too many plays. Try again!</h1></div>
           <div className="col-3">
             {circles}
           </div>
