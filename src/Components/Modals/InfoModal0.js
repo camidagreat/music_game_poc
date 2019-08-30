@@ -39,7 +39,7 @@ export default class InfoModal0 extends React.Component {
         <Modal.Body className="my-5 w-100">
           <div className='info-modal-content'>
             <h4 className='text-center'>Listen to the tracks</h4>
-            <img src={Shape} className='w-25 d-block mx-auto' />
+            <img src={Shape} alt='listen to track' className='w-25 d-block mx-auto' />
           </div>
         </Modal.Body>
         <Modal.Footer>

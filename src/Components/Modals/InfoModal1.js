@@ -42,9 +42,9 @@ export default class InfoModal1 extends React.Component {
         <div className='info-modal-content my-5'>
           <h4 className='text-center mb-4'>Place the track in the group where you think it would fit</h4>
           <div className='row justify-content-center'>
-            <img src={Shape} className='w-25 d-block mx-auto' />
-            <i class="fas fa-arrow-right fa-4x mx-5 my-auto"></i>
-            <img src={ShapeHighlighted} className='w-25 d-block mx-auto' />
+            <img src={Shape} alt="shape" className='w-25 d-block mx-auto' />
+            <i className="fas fa-arrow-right fa-4x mx-5 my-auto"></i>
+            <img src={ShapeHighlighted} alt="shape container" className='w-25 d-block mx-auto' />
           </div>
         </div>
         </Modal.Body>

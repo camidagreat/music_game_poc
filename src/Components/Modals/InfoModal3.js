@@ -40,7 +40,7 @@ export default class InfoModal3 extends React.Component {
           <div className='info-modal-content my-5'>
             <h4 className='text-center mb-4'>Then submit your group!</h4>
             <div className='row justify-content-center'>
-              <img src={SubmitGroup} className='w-25 d-block mx-auto border' />
+              <img src={SubmitGroup} alt="submitted group" className='w-25 d-block mx-auto border' />
             </div>
           </div>
         </Modal.Body>

@@ -11,6 +11,14 @@ import CircleImage from '../../Assets/Circle.png'
 import SquareImage from '../../Assets/Square.png'
 import PentagonImage from '../../Assets/Pentagon.png'
 import TriangleImage from '../../Assets/Triangle.png'
+import CircleOutline from '../../Assets/CircleOutline.png'
+import SquareOutline from '../../Assets/SquareOutline.png'
+import PentagonOutline from '../../Assets/PentagonOutline.png'
+import TriangleOutline from '../../Assets/TriangleOutline.png'
+import CircleOutlineHighlighted from '../../Assets/CircleOutlineHighlighted.png'
+import SquareOutlineHighlighted from '../../Assets/SquareOutlineHighlighted.png'
+import PentagonOutlineHighlighted from '../../Assets/PentagonOutlineHighlighted.png'
+import TriangleOutlineHighlighted from '../../Assets/TriangleOutlineHighlighted.png'
 
 export default class Game extends React.Component {
 
@@ -51,34 +59,34 @@ export default class Game extends React.Component {
                         circle1: {
                           id: "circle1",
                           shape: 'circle',
-                          originalLocation:[]
+
                         },
                         circle2: {
                           id: "circle2",
                           shape: 'circle',
-                          originalLocation:[]
+
                         },
                         circle3: {
                           id: "circle3",
                           shape: 'circle',
-                          originalLocation:[]
+
                         }
                       },
                       squares: {
                         square1: {
                           id: "square1",
                           shape: 'square',
-                          originalLocation:[]
+
                         },
                         square2: {
                           id: "square2",
                           shape: 'square',
-                          originalLocation:[]
+
                         },
                         square3: {
                           id: "square3",
                           shape: 'square',
-                          originalLocation:[]
+
                         }
                       },
                       pentagons: {
@@ -89,29 +97,29 @@ export default class Game extends React.Component {
                         pentagon2: {
                           id: "pentagon2",
                           shape: 'pentagon',
-                          originalLocation:[]
+
                         },
                         pentagon3: {
                           id: "pentagon3",
                           shape: 'pentagon',
-                          originalLocation:[]
+
                         }
                       },
                       triangles: {
                         triangle1: {
                           id: "triangle1",
                           shape: 'triangle',
-                          originalLocation:[]
+
                         },
                         triangle2: {
                           id: "triangle2",
                           shape: 'triangle',
-                          originalLocation:[]
+
                         },
                         triangle3: {
                           id: "triangle3",
                           shape: 'triangle',
-                          originalLocation:[]
+
                         }
                       }
                     }
@@ -250,20 +258,34 @@ export default class Game extends React.Component {
     let shapeDiv = document.getElementById(shape);
 
     shapeDiv.style.transform = "translate3d(" + (binX - shapeX) + "px, " + (binY - shapeY) + "px, 0)"
+
+    var shapeState = this.state.shapeData
+    let shapeStr = shape.replace(/[0-9]/g, '')
+    shapeState[`${shapeStr}s`][shape].xOffset = shapeX
+    shapeState[`${shapeStr}s`][shape].yOffset = shapeY
+
+    this.setState({shapeData: shapeState})
   }
 
   onSecondClickHandle(newBin, shape, oldBin) {
-    let oldBinX = document.getElementById(oldBin).getBoundingClientRect()['x'];
-    let oldBinY = document.getElementById(oldBin).getBoundingClientRect()['y'];
     let newBinX = document.getElementById(newBin).getBoundingClientRect()['x'];
     let newBinY = document.getElementById(newBin).getBoundingClientRect()['y'];
-    let shapeX = document.getElementById(shape).getBoundingClientRect()['x'];
-    let shapeY = document.getElementById(shape).getBoundingClientRect()['y'];
     let shapeDiv = document.getElementById(shape);
-    let docX = document.documentElement.clientWidth
-    let docY = document.documentElement.clientHeight
+    let origOffset = this.state.shapeData[`${shape.replace(/[0-9]/g, '')}s`][shape]
 
-    shapeDiv.style.transform = "translate3d(" + (newBinX - shapeX -  (shapeDiv.offsetWidth / 2)) + "px, " + (newBinY - shapeY -  (shapeDiv.offsetHeight / 2)) + "px, 0)"
+    shapeDiv.style.transform = "translate3d(" + (newBinX - (origOffset.xOffset)) + "px, " + (newBinY - (origOffset.yOffset)) + "px, 0)"
+
+    if (oldBin === '') {
+      let bins = ['binGroup1', 'binGroup2', 'binGroup3']
+      bins.forEach((bin) => {
+        let newBinState = this.state[bin].filter((value, index, arr) => value !== shape)
+        this.setState({[bin]: newBinState, selectedDiv:''})
+      })
+      // stops other audio if playing from single track
+      let audio = document.getElementById(`audio-${this.state.lastShape}`)
+      audio.pause();
+      audio.currentTime = 0
+    }
   }
 
   tutorial(action, currentModal, number) {
@@ -317,7 +339,10 @@ export default class Game extends React.Component {
                                                                       selected={this.state.selectedDiv}
                                                                       audio={this.state.music[data.id]}
                                                                       shapeImage={CircleImage}
-                                                                      handleSelect={(e, id) => this.handleSelect(e, id)} />
+                                                                      shapeOutline={CircleOutline}
+                                                                      shapeOutlineHighlighted={CircleOutlineHighlighted}
+                                                                      handleSelect={(e, id) => this.handleSelect(e, id)}
+                                                                      handleShapeBack={(nothing, shape, shapeOutline) => this.onSecondClickHandle(nothing, shape, shapeOutline)}/>
                                                                )})
     let squares = Object.keys(this.state.shapeData.squares).map((key) => {
                                                           let data = this.state.shapeData.squares[key]
@@ -329,7 +354,10 @@ export default class Game extends React.Component {
                                                                       selected={this.state.selectedDiv}
                                                                       audio={this.state.music[data.id]}
                                                                       shapeImage={SquareImage}
-                                                                      handleSelect={(e, id) => this.handleSelect(e, id)} />
+                                                                      shapeOutline={SquareOutline}
+                                                                      shapeOutlineHighlighted={SquareOutlineHighlighted}
+                                                                      handleSelect={(e, id) => this.handleSelect(e, id)}
+                                                                      handleShapeBack={(nothing, shape, shapeOutline) => this.onSecondClickHandle(nothing, shape, shapeOutline)}/>
                                                                 )})
     let pentagons = Object.keys(this.state.shapeData.pentagons).map((key) => {
                                                           let data = this.state.shapeData.pentagons[key]
@@ -341,7 +369,10 @@ export default class Game extends React.Component {
                                                                       selected={this.state.selectedDiv}
                                                                       audio={this.state.music[data.id]}
                                                                       shapeImage={PentagonImage}
-                                                                      handleSelect={(e, id) => this.handleSelect(e, id)} />
+                                                                      shapeOutline={PentagonOutline}
+                                                                      shapeOutlineHighlighted={PentagonOutlineHighlighted}
+                                                                      handleSelect={(e, id) => this.handleSelect(e, id)}
+                                                                      handleShapeBack={(nothing, shape, shapeOutline) => this.onSecondClickHandle(nothing, shape, shapeOutline)}/>
                                                                )})
     let triangles = Object.keys(this.state.shapeData.triangles).map((key) => {
                                                           let data = this.state.shapeData.triangles[key]
@@ -353,7 +384,10 @@ export default class Game extends React.Component {
                                                                      selected={this.state.selectedDiv}
                                                                      audio={this.state.music[data.id]}
                                                                      shapeImage={TriangleImage}
-                                                                     handleSelect={(e, id) => this.handleSelect(e, id)} />
+                                                                     shapeOutline={TriangleOutline}
+                                                                     shapeOutlineHighlighted={TriangleOutlineHighlighted}
+                                                                     handleSelect={(e, id) => this.handleSelect(e, id)}
+                                                                     handleShapeBack={(nothing, shape, shapeOutline) => this.onSecondClickHandle(nothing, shape, shapeOutline)}/>
                                                               )})
 
 
