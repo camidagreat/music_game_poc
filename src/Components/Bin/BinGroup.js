@@ -37,15 +37,40 @@ export default class BinGroup extends React.Component {
 
     let binSubmitSuccess
     if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-      binSubmitSuccess = <div id={`${this.props.locator}Success`} className='bin-submit-success'><i class="far fa-check-square fa-3x"></i></div>
+      binSubmitSuccess = <div id={`${this.props.locator}Success`} className='bin-submit-success'><i className="far fa-check-square fa-3x"></i></div>
     } else {
-      binSubmitSuccess = <div id={`${this.props.locator}Success`} className='bin-submit-success'><i class="far fa-check-square fa-9x"></i></div>
+      binSubmitSuccess = <div id={`${this.props.locator}Success`} className='bin-submit-success'><i className="far fa-check-square fa-9x"></i></div>
     }
 
     return (
       <div className="bin-box">
         <div className="row">
+          <div className="col-6 p-0 mt-2">
+            <BinCircle selected={this.props.selected}
+                         handleSelect={(e, id) => this.handleSelect(e, id)}
+                         id={`circleBin${this.props.group}`}
+                         ref={`circleBin${this.props.group}`}
+                         key={`circleBin${this.props.group}`}
+                         shapeImage={CircleBin}
+                         shapeImageHighlighted={CircleBinHighlighted}/>
+            <BinSquare selected={this.props.selected}
+                         handleSelect={(e, id) => this.handleSelect(e, id)}
+                         id={`squareBin${this.props.group}`}
+                         ref={`squareBin${this.props.group}`}
+                         key={`squareBin${this.props.group}`}
+                         shapeImage={SquareBin}
+                         shapeImageHighlighted={SquareBinHighlighted}/>
+
+
+          </div>
           <div className="col-6 p-0">
+            <BinTriangle selected={this.props.selected}
+                         handleSelect={(e, id) => this.handleSelect(e, id)}
+                         id={`triangleBin${this.props.group}`}
+                         ref={`triangleBin${this.props.group}`}
+                         key={`triangleBin${this.props.group}`}
+                         shapeImage={TriangleBin}
+                         shapeImageHighlighted={TriangleBinHighlighted}/>
             <BinPentagon selected={this.props.selected}
                          handleSelect={(e, id) => this.handleSelect(e, id)}
                          id={`pentagonBin${this.props.group}`}
@@ -54,33 +79,8 @@ export default class BinGroup extends React.Component {
                          shapeImage={PentagonBin}
                          shapeImageHighlighted={PentagonBinHighlighted}/>
 
-            <BinCircle selected={this.props.selected}
-                         handleSelect={(e, id) => this.handleSelect(e, id)}
-                         id={`circleBin${this.props.group}`}
-                         ref={`circleBin${this.props.group}`}
-                         key={`circleBin${this.props.group}`}
-                         shapeImage={CircleBin}
-                         shapeImageHighlighted={CircleBinHighlighted}/>
-
           </div>
-          <div className="col-6 p-0 mt-2">
-            <BinSquare selected={this.props.selected}
-                         handleSelect={(e, id) => this.handleSelect(e, id)}
-                         id={`squareBin${this.props.group}`}
-                         ref={`squareBin${this.props.group}`}
-                         key={`squareBin${this.props.group}`}
-                         shapeImage={SquareBin}
-                         shapeImageHighlighted={SquareBinHighlighted}/>
-            <BinTriangle selected={this.props.selected}
-                         handleSelect={(e, id) => this.handleSelect(e, id)}
-                         id={`triangleBin${this.props.group}`}
-                         ref={`triangleBin${this.props.group}`}
-                         key={`triangleBin${this.props.group}`}
-                         shapeImage={TriangleBin}
-                         shapeImageHighlighted={TriangleBinHighlighted}/>
-
-          </div>
-          <div className='row justify-content-center w-100 ml-2 mt-1'>
+          <div className='row justify-content-center w-100 pl-3 mt-1'>
             <div className='all-play-button'><PlayAllButton playing={this.props.playing} handlePlayAll={() => this.handlePlayAll()} /></div>
             <SubmitSetButton handleSubmitSet={() => this.handleSubmitSet()} />
           </div>

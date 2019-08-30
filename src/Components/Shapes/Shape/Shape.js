@@ -18,7 +18,10 @@ export default class Shape extends React.Component {
     }
 
     return (
-      <div id={this.props.id} ref={this.props.id} className={ `${this.props.shape} ${selectedClass}`} onClick={(e) => this.handleSelect(e)}>
+      <div id={this.props.id}
+           className={ `${this.props.shape} ${selectedClass}`}
+           onClick={(e) => this.handleSelect(e)}
+      >
         <img className={`${this.props.shape} ${selectedClass}`} src={this.props.shapeImage}></img>
         <PlayButton selected={this.props.selected} shapeId={this.props.id} />
         <audio id={`audio-${this.props.id}`} src={this.props.audio}></audio>

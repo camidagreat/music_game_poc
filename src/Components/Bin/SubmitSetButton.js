@@ -9,7 +9,7 @@ class SubmitSetButton extends React.Component {
 
   render() {
     return (
-      <div className='submit-set-button'>
+      <div className='submit-set-button ml-4'>
         <img src={Logo} onClick={() => this.handleSubmitSet()}/>
       </div>
     )

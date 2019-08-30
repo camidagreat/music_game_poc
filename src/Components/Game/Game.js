@@ -1,10 +1,11 @@
 import React from 'react';
-import jquery from 'jquery'
+import $ from 'jquery'
 
 import './Game.scss'
 import Shape from '../Shapes/Shape/Shape.js'
 import BinGroup from '../Bin/BinGroup.js'
 import Header from '../Header/Header.js'
+import InfoModals from '../Modals/InfoModals.js'
 
 import CircleImage from '../../Assets/Circle.png'
 import SquareImage from '../../Assets/Square.png'
@@ -24,6 +25,10 @@ export default class Game extends React.Component {
                     binGroup1: [],
                     binGroup2: [],
                     binGroup3: [],
+                    showModal0: false,
+                    showModal1: false,
+                    showModal2: false,
+                    showModal3: false,
                     binGroup1Playing: false,
                     binGroup2Playing: false,
                     binGroup3Playing: false,
@@ -113,8 +118,6 @@ export default class Game extends React.Component {
                   };
   }
 
-  componentDidMount() {
-  }
 
   handleSelect(e, id) {
     e.persist()
@@ -129,7 +132,7 @@ export default class Game extends React.Component {
     if (this.state.selectedDiv !== id) {
       this.setState({selectedDiv: id, plays: newPlayCount}, () => {
         if (this.state.plays == 0) {
-          document.getElementById('game-over').classList.add("show");
+          document.getElementById('game-over').classList.add("show-panel");
         }
       })
     } else {
@@ -174,69 +177,65 @@ export default class Game extends React.Component {
   }
 
   handleBinSelect(e, id) {
-    e.persist()
-    let bin = parseInt(id.match(/\d+/)[0])
 
+    let allBins = ['binGroup1', 'binGroup2', 'binGroup3']
+    let newBinNumber = parseInt(id.match(/\d+/)[0])
+    let newBin = id
+    let newBinGroup = `binGroup${newBinNumber}`
+    let newBinGroupContent = this.state[newBinGroup]
+
+    let oldBin
+    let oldBinGroup = ''
+    let oldBinGroupContent
+
+    // checking bins to see if the shape is in one already
+    allBins.forEach((bin) => {
+      if (this.state[bin].includes(this.state.selectedDiv)) {
+        oldBinGroup = bin
+        oldBinGroupContent = this.state[bin]
+        oldBin = newBin.replace(/[0-9]/g, '') + parseInt(oldBinGroup.match(/\d+/)[0])
+      }
+    })
+
+    // stops other audio if playing from single track
     let audio = document.getElementById(`audio-${this.state.selectedDiv}`)
-    audio.pause();
-    audio.currentTime = 0
+    if (audio && !audio.paused){
+      audio.pause();
+      audio.currentTime = 0
+    }
 
+    // decides wether div should be moved among bins, back to original location, or to first bin
     if (this.state.selectedDiv !== '') {
-      if (bin === 1) {
-        let shape = this.state.selectedDiv
-        let binTarget = id
-        let binContent = this.state.binGroup1
-
-        if (id.includes(this.state.selectedDiv.replace(/[0-9]/g, ''))) {
-          binContent.push(this.state.selectedDiv)
-          this.setState({ binGroup1: binContent,
+      let shape = this.state.selectedDiv
+      if (newBin.includes(shape.replace(/[0-9]/g, ''))) {
+        if (oldBinGroup === '') {
+          newBinGroupContent.push(shape)
+          this.setState({ [newBinGroup]: newBinGroupContent,
                           selectedDiv:'',
-                          lastBin: binTarget,
+                          lastBin: newBin,
                           lastShape: shape},
                           () => this.onClickHandle(this.state.lastBin, this.state.lastShape))
         } else {
-          this.handlePlayAll(`binGroup${bin}`)
+          newBinGroupContent.push(shape)
+          oldBinGroupContent = oldBinGroupContent.filter((value, index, arr) => value !== shape)
+
+          this.setState({ [newBinGroup]: newBinGroupContent,
+                          [oldBinGroup]: oldBinGroupContent,
+                          selectedDiv:'',
+                          lastBin: newBin,
+                          lastShape: shape},
+                          () => this.onSecondClickHandle(this.state.lastBin, this.state.lastShape, oldBin))
         }
-      } else if (bin === 2 ) {
-        let shape = this.state.selectedDiv
-        let binTarget = id
-        let binContent = this.state.binGroup2
-
-        if (id.includes(this.state.selectedDiv.replace(/[0-9]/g, ''))) {
-          binContent.push(this.state.selectedDiv)
-          this.setState({ binGroup2: binContent,
-                          selectedDiv:'',
-                          lastBin: binTarget,
-                          lastShape: shape},
-                          () => this.onClickHandle(this.state.lastBin, this.state.lastShape))
-          } else {
-            this.handlePlayAll(`binGroup${bin}`)
-          }
-      } else if (bin === 3 ) {
-        let shape = this.state.selectedDiv
-        let binTarget = id
-        let binContent = this.state.binGroup3
-
-        if (id.includes(this.state.selectedDiv.replace(/[0-9]/g, ''))) {
-          binContent.push(this.state.selectedDiv)
-          this.setState({ binGroup3: binContent,
-                          selectedDiv:'',
-                          lastBin: binTarget,
-                          lastShape: shape},
-                          () => this.onClickHandle(this.state.lastBin, this.state.lastShape))
-          } else {
-            this.handlePlayAll(`binGroup${bin}`)
-          }
       }
     }
   }
 
   handleSubmitSet(bin) {
     if (this.state[bin].length > 3) {
-      document.getElementById(`${bin}Success`).classList.add("show");
+      document.getElementById(`${bin}Success`).classList.add("show-panel");
       this.setState( prevState => ({successCount: prevState.successCount + 1}), () => {
         if (this.state.successCount == 3) {
-          document.getElementById('game-success').classList.add("show");
+          document.getElementById('game-success').classList.add("show-panel");
         }
       })
     }
@@ -244,13 +243,38 @@ export default class Game extends React.Component {
   }
 
   onClickHandle(bin, shape) {
-    let binX = document.getElementById(bin).getBoundingClientRect()['x'];
-    let binY = document.getElementById(bin).getBoundingClientRect()['y'];
     let shapeX = document.getElementById(shape).getBoundingClientRect()['x'];
     let shapeY = document.getElementById(shape).getBoundingClientRect()['y'];
+    let binX = document.getElementById(bin).getBoundingClientRect()['x'];
+    let binY = document.getElementById(bin).getBoundingClientRect()['y'];
     let shapeDiv = document.getElementById(shape);
 
     shapeDiv.style.transform = "translate3d(" + (binX - shapeX) + "px, " + (binY - shapeY) + "px, 0)"
+  }
+
+  onSecondClickHandle(newBin, shape, oldBin) {
+    let oldBinX = document.getElementById(oldBin).getBoundingClientRect()['x'];
+    let oldBinY = document.getElementById(oldBin).getBoundingClientRect()['y'];
+    let newBinX = document.getElementById(newBin).getBoundingClientRect()['x'];
+    let newBinY = document.getElementById(newBin).getBoundingClientRect()['y'];
+    let shapeX = document.getElementById(shape).getBoundingClientRect()['x'];
+    let shapeY = document.getElementById(shape).getBoundingClientRect()['y'];
+    let shapeDiv = document.getElementById(shape);
+    let docX = document.documentElement.clientWidth
+    let docY = document.documentElement.clientHeight
+
+    shapeDiv.style.transform = "translate3d(" + (newBinX - shapeX -  (shapeDiv.offsetWidth / 2)) + "px, " + (newBinY - shapeY -  (shapeDiv.offsetHeight / 2)) + "px, 0)"
+  }
+
+  tutorial(action, currentModal, number) {
+    if (action === 'close') {
+      this.setState({[currentModal]: false})
+    } else if (action === 'next') {
+      let nextModal = currentModal.substring(0, currentModal.length - 1) + (number + 1).toString();
+      this.setState({[nextModal]: true, [currentModal]: false})
+    } else if (action === 'start') {
+      this.setState({showModal0: true})
+    }
   }
 
   componentDidMount() {
@@ -335,7 +359,14 @@ export default class Game extends React.Component {
 
     return (
       <div className="beatrix">
-        <Header plays={this.state.plays} />
+        <Header plays={this.state.plays} tutorial={(phase) => this.tutorial(phase)} />
+        <InfoModals
+          showModal0={this.state.showModal0}
+          showModal1={this.state.showModal1}
+          showModal2={this.state.showModal2}
+          showModal3={this.state.showModal3}
+          handleButtonClick={(action, currentModal, number) => this.tutorial(action, currentModal, number)}
+        />
         <div className="row moving-shapes">
           <div id='game-success' className='game-success p-auto'><h1 className='text-success text-center'>Great job!</h1></div>
           <div id='game-over' className='game-over p-auto'><h1 className='text-danger text-center'>You used too many plays. Try again!</h1></div>

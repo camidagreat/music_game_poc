@@ -65,10 +65,10 @@
     }
   }
   @media (min-width: 768px) {
-    width: 70px;
+    width: 74px;
     .play-button {
-      left: 17px;
-      top: 15px;
+      left: 20px;
+      top: 18px;
     }
   }
 }
@@ -117,10 +117,10 @@
     }
   }
   @media (min-width: 768px) {
-    width: 90px;
+    width: 83px;
     .play-button {
-      left: 27px;
-      top: 30px;
+      left: 24px;
+      top: 27px;
     }
   }
 }
@@ -133,14 +133,6 @@
   width: 90px;
   position: relative;
   align-items:center;
-}
-.square-bin {
-  @media (max-width: 768px) {
-    left: 15px;
-  }
-  @media (min-width: 768px) {
-    left: 26px;
-  }
 }
 
 .bin-box {
@@ -242,10 +234,15 @@
   transition: opacity .7s;
 }
 
-.show {
+.show-panel {
   visibility: visible !important;
+  display: block;
   opacity: 0.85 !important;
   transition: visibility 0s linear 0s, opacity 400ms;
+}
+
+.show {
+  display: block;
 }
 
 .game-success, .game-over {
@@ -263,4 +260,11 @@
   justify-content: center;
   flex-direction: column;
   transition: opacity .7s;
+}
+
+.info-modal-content {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
