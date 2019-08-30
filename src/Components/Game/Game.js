@@ -32,6 +32,9 @@ export default class Game extends React.Component {
                     binGroup1: [],
                     binGroup2: [],
                     binGroup3: [],
+                    binGroup1Success: false,
+                    binGroup2Success: false,
+                    binGroup3Success: false,
                     showModal0: false,
                     showModal1: false,
                     showModal2: false,
@@ -240,8 +243,8 @@ export default class Game extends React.Component {
   handleSubmitSet(bin) {
     if (this.state[bin].length > 3) {
       document.getElementById(`${bin}Success`).classList.add("show-panel");
-      this.setState( prevState => ({successCount: prevState.successCount + 1}), () => {
-        if (this.state.successCount === 3) {
+      this.setState({ [`${bin}Success`]: true}, () => {
+        if (this.state.binGroup1Success === true && this.state.binGroup2Success === true && this.state.binGroup3Success === true) {
           document.getElementById('game-success').classList.add("show-panel");
         }
       })
@@ -421,7 +424,7 @@ export default class Game extends React.Component {
           <div className="line-bottom"></div>
         </div>
         <div className="row">
-          <div className="col-md-2 col-3 mr-auto">
+          <div className="col-md-2 col-3 mr-auto container">
               <BinGroup selected={this.state.selectedDiv}
                         group={1}
                         locator={'binGroup1'}

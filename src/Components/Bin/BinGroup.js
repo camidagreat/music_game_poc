@@ -45,6 +45,7 @@ export default class BinGroup extends React.Component {
     return (
       <div className="bin-box">
         <div className="row">
+          {binSubmitSuccess}
           <div className="col-6 p-0 mt-2">
             <BinCircle selected={this.props.selected}
                          handleSelect={(e, id) => this.handleSelect(e, id)}
@@ -85,7 +86,6 @@ export default class BinGroup extends React.Component {
             <SubmitSetButton handleSubmitSet={() => this.handleSubmitSet()} />
           </div>
         </div>
-        {binSubmitSuccess}
       </div>
     );
   }
