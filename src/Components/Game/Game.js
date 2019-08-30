@@ -1,5 +1,4 @@
 import React from 'react';
-import $ from 'jquery'
 
 import './Game.scss'
 import Shape from '../Shapes/Shape/Shape.js'
@@ -139,7 +138,7 @@ export default class Game extends React.Component {
 
     if (this.state.selectedDiv !== id) {
       this.setState({selectedDiv: id, plays: newPlayCount}, () => {
-        if (this.state.plays == 0) {
+        if (this.state.plays === 0) {
           document.getElementById('game-over').classList.add("show-panel");
         }
       })
@@ -155,20 +154,20 @@ export default class Game extends React.Component {
     let fileData = this.state[bin]
     let audios = []
 
-    fileData.map((file) => {
+    fileData.forEach((file) => {
       let audio = document.getElementById(`audio-${file}`)
       audios.push(audio)
     })
 
     if (this.state[`${bin}Playing`] === false) {
-      audios.map((audio) => {
+      audios.forEach((audio) => {
         audio.play()
       })
 
       let plays = this.state.plays - 1
       this.setState({plays: plays})
     } else {
-      audios.map((audio) => {
+      audios.forEach((audio) => {
         audio.currentTime = 0
         audio.pause()
       })
@@ -242,7 +241,7 @@ export default class Game extends React.Component {
     if (this.state[bin].length > 3) {
       document.getElementById(`${bin}Success`).classList.add("show-panel");
       this.setState( prevState => ({successCount: prevState.successCount + 1}), () => {
-        if (this.state.successCount == 3) {
+        if (this.state.successCount === 3) {
           document.getElementById('game-success').classList.add("show-panel");
         }
       })

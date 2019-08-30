@@ -22,11 +22,13 @@ export default class Shape extends React.Component {
     }
 
     let shapeOutline = <img className={`${this.props.shape} shape-outline`}
+                            alt="shape outline"
                             id={`${this.props.id} shape-outline`}
                             src={this.props.shapeOutline}
                             onClick={() => this.handleShapeBack()}></img>
     if (this.props.id === this.props.selected) {
       shapeOutline = <img className={`${this.props.shape} shape-outline`}
+                          alt="shape outline"
                           id={`${this.props.id} shape-outline`}
                           src={this.props.shapeOutlineHighlighted}
                           onClick={() => this.handleShapeBack()}></img>
@@ -39,7 +41,7 @@ export default class Shape extends React.Component {
              className={ `${this.props.shape} ${selectedClass}`}
              onClick={(e) => this.handleSelect(e)}
         >
-          <img className={`${this.props.shape} ${selectedClass}`} src={this.props.shapeImage}></img>
+          <img className={`${this.props.shape} ${selectedClass}`} alt="shape" src={this.props.shapeImage}></img>
           <PlayButton selected={this.props.selected} shapeId={this.props.id} />
           <audio id={`audio-${this.props.id}`} src={this.props.audio}></audio>
         </div>

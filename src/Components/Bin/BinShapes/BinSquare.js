@@ -8,9 +8,9 @@ export default class BinSquare extends React.Component {
 
   render() {
 
-    let img = <img className='square' src={this.props.shapeImage}></img>
+    let img = <img className='square'  alt="Square bin container" src={this.props.shapeImage}></img>
     if (this.props.selected.includes('square')) {
-      img = <img className='square' src={this.props.shapeImageHighlighted}></img>
+      img = <img className='square'  alt="Square bin container" src={this.props.shapeImageHighlighted}></img>
     }
 
     return (

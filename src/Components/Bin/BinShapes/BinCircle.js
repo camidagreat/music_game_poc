@@ -8,9 +8,9 @@ export default class BinCircle extends React.Component {
 
   render() {
 
-    let img = <img className='circle' src={this.props.shapeImage}></img>
+    let img = <img alt="Circle bin container" className='circle' src={this.props.shapeImage}></img>
     if (this.props.selected.includes('circle')) {
-      img = <img className='circle' src={this.props.shapeImageHighlighted}></img>
+      img = <img alt="Circle bin container" className='circle' src={this.props.shapeImageHighlighted}></img>
     }
 
     return (

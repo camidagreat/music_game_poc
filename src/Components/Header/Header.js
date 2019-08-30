@@ -14,7 +14,7 @@ export default class Header extends React.Component {
       <div id='header' ref='header' className='header '>
         <div className='row'>
           <div className='col-2'>
-            <img className='logo' src={logo} />
+            <img className='logo' alt="Sonically Logo" src={logo} />
           </div>
           <div className='col-8 text-center'>
             <h5 className='title'>BEATRIX</h5>

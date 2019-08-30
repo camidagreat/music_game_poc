@@ -8,9 +8,9 @@ export default class BinTriangle extends React.Component {
 
   render() {
 
-    let img = <img className='triangle' src={this.props.shapeImage}></img>
+    let img = <img className='triangle'  alt="Triangle bin container" src={this.props.shapeImage}></img>
     if (this.props.selected.includes('triangle')) {
-      img = <img className='triangle' src={this.props.shapeImageHighlighted}></img>
+      img = <img className='triangle'  alt="Triangle bin container" src={this.props.shapeImageHighlighted}></img>
     }
 
     return (

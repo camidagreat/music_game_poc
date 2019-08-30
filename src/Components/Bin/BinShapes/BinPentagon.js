@@ -8,9 +8,9 @@ export default class BinPentagon extends React.Component {
 
   render() {
 
-    let img = <img className='pentagon' src={this.props.shapeImage}></img>
+    let img = <img className='pentagon'  alt="Pentagon bin container" src={this.props.shapeImage}></img>
     if (this.props.selected.includes('pentagon')) {
-      img = <img className='pentagon' src={this.props.shapeImageHighlighted}></img>
+      img = <img className='pentagon'  alt="Pentagon bin container" src={this.props.shapeImageHighlighted}></img>
     }
 
     return (
