@@ -270,23 +270,25 @@ export default class Game extends React.Component {
   }
 
   onSecondClickHandle(newBin, shape, oldBin) {
-    let newBinX = document.getElementById(newBin).getBoundingClientRect()['x'];
-    let newBinY = document.getElementById(newBin).getBoundingClientRect()['y'];
-    let shapeDiv = document.getElementById(shape);
-    let origOffset = this.state.shapeData[`${shape.replace(/[0-9]/g, '')}s`][shape]
+    if (newBin.includes(shape.replace(/[0-9]/g, ''))) {
+      let newBinX = document.getElementById(newBin).getBoundingClientRect()['x'];
+      let newBinY = document.getElementById(newBin).getBoundingClientRect()['y'];
+      let shapeDiv = document.getElementById(shape);
+      let origOffset = this.state.shapeData[`${shape.replace(/[0-9]/g, '')}s`][shape]
 
-    shapeDiv.style.transform = "translate3d(" + (newBinX - (origOffset.xOffset)) + "px, " + (newBinY - (origOffset.yOffset)) + "px, 0)"
+      shapeDiv.style.transform = "translate3d(" + (newBinX - (origOffset.xOffset)) + "px, " + (newBinY - (origOffset.yOffset)) + "px, 0)"
 
-    if (oldBin === '') {
-      let bins = ['binGroup1', 'binGroup2', 'binGroup3']
-      bins.forEach((bin) => {
-        let newBinState = this.state[bin].filter((value, index, arr) => value !== shape)
-        this.setState({[bin]: newBinState, selectedDiv:''})
-      })
-      // stops other audio if playing from single track
-      let audio = document.getElementById(`audio-${this.state.lastShape}`)
-      audio.pause();
-      audio.currentTime = 0
+      if (oldBin === '') {
+        let bins = ['binGroup1', 'binGroup2', 'binGroup3']
+        bins.forEach((bin) => {
+          let newBinState = this.state[bin].filter((value, index, arr) => value !== shape)
+          this.setState({[bin]: newBinState, selectedDiv:''})
+        })
+        // stops other audio if playing from single track
+        let audio = document.getElementById(`audio-${this.state.lastShape}`)
+        audio.pause();
+        audio.currentTime = 0
+      }
     }
   }
 
