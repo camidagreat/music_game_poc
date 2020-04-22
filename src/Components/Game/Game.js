@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './Game.scss'
-import Shape from '../Shapes/Shape/Shape.js'
+import Shape from '../Shapes/Shape.js'
 import BinGroup from '../Bin/BinGroup.js'
 import Header from '../Header/Header.js'
 import InfoModals from '../Modals/InfoModals.js'
@@ -132,13 +132,15 @@ export default class Game extends React.Component {
   handleSelect(e, id) {
     e.persist()
     let newPlayCount = this.state.plays - 1
-
+    
+    // pause if playing
     if (this.state.selectedDiv !== '') {
       let audio = document.getElementById(`audio-${this.state.selectedDiv}`)
       audio.pause()
       audio.currentTime = 0
     }
-
+    
+    // trigger game over if they use up their given plays. play audio if not game over
     if (this.state.selectedDiv !== id) {
       this.setState({selectedDiv: id, plays: newPlayCount}, () => {
         if (this.state.plays === 0) {
@@ -252,6 +254,7 @@ export default class Game extends React.Component {
 
   }
 
+  // handles shape moving from one place to another
   onClickHandle(bin, shape) {
     let shapeX = document.getElementById(shape).getBoundingClientRect()['x'];
     let shapeY = document.getElementById(shape).getBoundingClientRect()['y'];
@@ -268,7 +271,8 @@ export default class Game extends React.Component {
 
     this.setState({shapeData: shapeState})
   }
-
+  
+  // all clicks after first are different than first - math shape needs to do to calculate end location is not the same
   onSecondClickHandle(newBin, shape, oldBin) {
     if (newBin.includes(shape.replace(/[0-9]/g, ''))) {
       let newBinX = document.getElementById(newBin).getBoundingClientRect()['x'];

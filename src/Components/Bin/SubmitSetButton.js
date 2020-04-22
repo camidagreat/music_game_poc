@@ -1,19 +1,12 @@
 import React from 'react';
 import Logo from '../../Assets/SonicallyLogo.png'
 
-class SubmitSetButton extends React.Component {
+export default function SubmitSetButton(props) {
 
-  handleSubmitSet() {
-    this.props.handleSubmitSet();
-  }
-
-  render() {
-    return (
-      <div className='submit-set-button ml-4'>
-        <img src={Logo} alt="submit track group" onClick={() => this.handleSubmitSet()}/>
-      </div>
-    )
-  }
+  return (
+    <div className='submit-set-button ml-4'>
+      <img src={Logo} alt="submit track group" onClick={() => props.handleSubmitSet()}/>
+    </div>
+  )
+  
 }
-
-export default SubmitSetButton;

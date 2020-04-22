@@ -1,9 +1,6 @@
 import React from 'react';
 
-import BinCircle from './BinShapes/BinCircle.js'
-import BinSquare from './BinShapes/BinSquare.js'
-import BinPentagon from './BinShapes/BinPentagon.js'
-import BinTriangle from './BinShapes/BinTriangle.js'
+import BinShape from './BinShape.jsx'
 import PlayAllButton from '../PlayButton/PlayAllButton.js'
 import SubmitSetButton from './SubmitSetButton.js'
 
@@ -19,74 +16,62 @@ import TriangleBinHighlighted from '../../Assets/TriangleBinHighlighted.png'
 
 import './BinGroup.scss'
 
-export default class BinGroup extends React.Component {
+export default function BinGroup(props) {
 
-  handleSelect(e, id) {
-    this.props.handleBinSelect(e, id)
+  const handleSubmitSet = () => {
+    props.handleSubmitSet(`binGroup${props.group}`)
   }
 
-  handlePlayAll() {
-    this.props.handlePlayAll(this.props.locator)
+
+  let binSubmitSuccess
+  if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    binSubmitSuccess = <div id={`${props.locator}Success`} className='bin-submit-success'><i className="far fa-check-square fa-3x"></i></div>
+  } else {
+    binSubmitSuccess = <div id={`${props.locator}Success`} className='bin-submit-success'><i className="far fa-check-square fa-9x"></i></div>
   }
 
-  handleSubmitSet() {
-    this.props.handleSubmitSet(`binGroup${this.props.group}`)
-  }
-
-  render() {
-
-    let binSubmitSuccess
-    if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-      binSubmitSuccess = <div id={`${this.props.locator}Success`} className='bin-submit-success'><i className="far fa-check-square fa-3x"></i></div>
-    } else {
-      binSubmitSuccess = <div id={`${this.props.locator}Success`} className='bin-submit-success'><i className="far fa-check-square fa-9x"></i></div>
-    }
-
-    return (
-      <div className="bin-box">
-        <div className="row">
-          {binSubmitSuccess}
-          <div className="col-6 p-0 mt-2">
-            <BinCircle selected={this.props.selected}
-                         handleSelect={(e, id) => this.handleSelect(e, id)}
-                         id={`circleBin${this.props.group}`}
-                         ref={`circleBin${this.props.group}`}
-                         key={`circleBin${this.props.group}`}
-                         shapeImage={CircleBin}
-                         shapeImageHighlighted={CircleBinHighlighted}/>
-            <BinSquare selected={this.props.selected}
-                         handleSelect={(e, id) => this.handleSelect(e, id)}
-                         id={`squareBin${this.props.group}`}
-                         ref={`squareBin${this.props.group}`}
-                         key={`squareBin${this.props.group}`}
-                         shapeImage={SquareBin}
-                         shapeImageHighlighted={SquareBinHighlighted}/>
+  return (
+    <div className="bin-box">
+      <div className="row">
+        {binSubmitSuccess}
+        <div className="col-6 p-0 mt-2">
+          <BinShape  selected={props.selected}
+                     handleSelect={(e, id) => props.handleBinSelect(e, id)}
+                     id={`circleBin${props.group}`}
+                     shapeImage={CircleBin}
+                     shape='circle'
+                     shapeImageHighlighted={CircleBinHighlighted}/>
+          <BinShape selected={props.selected}
+                    handleSelect={(e, id) => props.handleBinSelect(e, id)}
+                    id={`squareBin${props.group}`}
+                    shapeImage={SquareBin}
+                    shape='square'
+                    shapeImageHighlighted={SquareBinHighlighted}/>
 
 
+        </div>
+        <div className="col-6 p-0">
+          <BinShape  selected={props.selected}
+                     handleSelect={(e, id) => props.handleBinSelect(e, id)}
+                     id={`triangleBin${props.group}`}
+                     shapeImage={TriangleBin}
+                     shape='triangle'
+                     shapeImageHighlighted={TriangleBinHighlighted}/>
+          <BinShape  selected={props.selected}
+                     handleSelect={(e, id) => props.handleBinSelect(e, id)}
+                     id={`pentagonBin${props.group}`}
+                     shapeImage={PentagonBin}
+                     shape='pentagon'
+                     shapeImageHighlighted={PentagonBinHighlighted}/>
+
+        </div>
+        <div className='row justify-content-center w-100 pl-3 mt-1'>
+          <div className='all-play-button'>
+            <PlayAllButton playing={props.playing} handlePlayAll={() => props.handlePlayAll(props.locator)} />
           </div>
-          <div className="col-6 p-0">
-            <BinTriangle selected={this.props.selected}
-                         handleSelect={(e, id) => this.handleSelect(e, id)}
-                         id={`triangleBin${this.props.group}`}
-                         ref={`triangleBin${this.props.group}`}
-                         key={`triangleBin${this.props.group}`}
-                         shapeImage={TriangleBin}
-                         shapeImageHighlighted={TriangleBinHighlighted}/>
-            <BinPentagon selected={this.props.selected}
-                         handleSelect={(e, id) => this.handleSelect(e, id)}
-                         id={`pentagonBin${this.props.group}`}
-                         ref={`pentagonBin${this.props.group}`}
-                         key={`pentagonBin${this.props.group}`}
-                         shapeImage={PentagonBin}
-                         shapeImageHighlighted={PentagonBinHighlighted}/>
-
-          </div>
-          <div className='row justify-content-center w-100 pl-3 mt-1'>
-            <div className='all-play-button'><PlayAllButton playing={this.props.playing} handlePlayAll={() => this.handlePlayAll()} /></div>
-            <SubmitSetButton handleSubmitSet={() => this.handleSubmitSet()} />
-          </div>
+          <SubmitSetButton handleSubmitSet={() => handleSubmitSet()} />
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }

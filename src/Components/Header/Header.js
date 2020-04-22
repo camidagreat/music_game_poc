@@ -1,12 +1,8 @@
 import React from 'react';
 
-import logo from './SonicallyLogo.png'
+import logo from '../../Assets/SonicallyLogo.png'
 
 export default class Header extends React.Component {
-
-  tutorial() {
-    this.props.tutorial('start', 0)
-  }
 
   render() {
 
@@ -22,7 +18,7 @@ export default class Header extends React.Component {
             {this.props.plays}
           </div>
           <div className='col-2'>
-            <button className='btn btn-outline-dark m-1 ml-md-5' onClick={() => this.tutorial()}><i className="fas fa-info"></i></button>
+            <button className='btn btn-outline-dark m-1 ml-md-5' onClick={() => this.props.tutorial('start', 0)}><i className="fas fa-info"></i></button>
           </div>
         </div>
       </div>

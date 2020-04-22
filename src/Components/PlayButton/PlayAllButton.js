@@ -1,23 +1,18 @@
 import React from 'react';
 
-export default class PlayAllButton extends React.Component {
+export default function PlayAllButton(props) {
 
-  handlePlayAll() {
-    this.props.handlePlayAll()
+  let button
+  if (props.playing === true ) {
+    button = <i className="fa fa-pause"></i>
+  } else {
+    button = <i className="fa fa-play"></i>
   }
 
-  render() {
-      let button
-      if (this.props.playing === true ) {
-        button = <i className="fa fa-pause"></i>
-      } else {
-        button = <i className="fa fa-play"></i>
-      }
-
-    return (
-      <div className={`play-button`} onClick={() => this.handlePlayAll()}>
-        {button}
-      </div>
-    );
-  }
+  return (
+    <div className='play-button' onClick={() => props.handlePlayAll()}>
+      {button}
+    </div>
+  );
+  
 }

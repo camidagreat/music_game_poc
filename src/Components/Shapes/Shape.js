@@ -1,7 +1,6 @@
 import React from 'react';
 
-import './Shape.scss'
-import PlayButton from '../../PlayButton/PlayButton.js'
+import PlayButton from '../PlayButton/PlayButton.js'
 
 export default class Shape extends React.Component {
 
@@ -14,7 +13,7 @@ export default class Shape extends React.Component {
   }
 
   render() {
-    let selectedClass = ''
+    let selectedClass = '';
     if (this.props.id === this.props.selected) {
       selectedClass = 'selected-shape'
       let audio = document.getElementById(`audio-${this.props.id}`)
